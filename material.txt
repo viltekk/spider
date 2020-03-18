@@ -2,3 +2,8 @@ pca9685
 arduino pro micro
 cables
 sg90 servo
+
+-- radio --
+KDS K-7XII transmitter
+K-8X receiver (pwm)
+https://www.hobbysweden.se/ovriga-produkter/radiosandare-mottagare/kds-k-7xii-24ghz-flygradio-med-aluvaska/
