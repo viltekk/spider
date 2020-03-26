@@ -2,6 +2,7 @@ pca9685
 arduino pro micro
 cables
 sg90 servo
+Stiftlist XH 2-pol 2.5mm : https://www.electrokit.com/produkt/stiftlist-xh-2-pol-2-5mm/
 
 -- radio --
 KDS K-7XII transmitter
