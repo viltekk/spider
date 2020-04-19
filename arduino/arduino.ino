@@ -1,11 +1,14 @@
 #include <Servo.h>
 
+#define PULSE_MIN (200)
+#define PULSE_MAX (577)
+
 Servo servo0;
 Servo servo1;
 
 void setup() {
-  servo0.attach(5);
-  servo1.attach(6);
+  servo0.attach(5, PULSE_MIN, PULSE_MAX);
+  servo1.attach(6, PULSE_MIN, PULSE_MAX);
   Serial.begin(9600);
 
   servo0.write(90);
