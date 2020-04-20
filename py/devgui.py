@@ -1,8 +1,15 @@
 import gi
+import sys
 import serial
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+
+port = ''
+if len(sys.argv) == 2:
+    port = sys.argv[1]
+else:
+    port = '/dev/ttyUSB0'
 
 class Res():
     SCALE_INIT = 90
@@ -10,7 +17,7 @@ class Res():
     SCALE_UPPER = 180
     SCALE_INC = 1
 
-    ARDU_PORT = '/dev/ttyUSB0'
+    ARDU_PORT = port
     ARDU_BAUDRATE = 9600
     ARDU_TIMEOUT = 1
 
@@ -62,7 +69,7 @@ class DevGUIWindow(Gtk.Window):
         
         self.set_default_size(512, 64)
 
-window = DevGUIWindow(title="Hello World")
+window = DevGUIWindow(title="Spider GUI")
 window.show_all()
 window.connect("destroy", Gtk.main_quit)
 Gtk.main()
