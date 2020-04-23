@@ -23,13 +23,12 @@ class Res():
 
 class DevGUIWindow(Gtk.Window):
     def serwr(self, s, v):
-        if(s == 0):
-            self.serial.write((0).to_bytes(1, byteorder='little'))
-        else:
-            self.serial.write((1).to_bytes(1, byteorder='little'))
-        
-        v = int(max(min(v, Res.SCALE_UPPER), Res.SCALE_LOWER))
+        s    = max(min(2, s), 0)
+        s    = int(s)
+        v    = int(max(min(v, Res.SCALE_UPPER), Res.SCALE_LOWER))
         byte = v.to_bytes(1, byteorder='little')
+        
+        self.serial.write(s.to_bytes(1, byteorder='little'))
         self.serial.write(byte)
     
     def value_changed0(self, widget, scoll, value):
@@ -38,12 +37,15 @@ class DevGUIWindow(Gtk.Window):
     def value_changed1(self, widget, scoll, value):
         self.serwr(1, value)
 
+    def value_changed2(self, widget, scoll, value):
+        self.serwr(2, value)
+        
     def __init__(self, title):
         Gtk.Window.__init__(self, title=title)
         
-        self.serial = serial.Serial(port=Res.ARDU_PORT, \
+        self.serial = serial.Serial(port=Res.ARDU_PORT,         \
                                     baudrate=Res.ARDU_BAUDRATE, \
-                                    timeout=Res.ARDU_TIMEOUT, \
+                                    timeout=Res.ARDU_TIMEOUT,   \
                                     bytesize=serial.EIGHTBITS)
         self.box = Gtk.Box(spacing=10)
         self.add(self.box)        
@@ -64,8 +66,17 @@ class DevGUIWindow(Gtk.Window):
         self.scale1.set_digits(0)
         self.scale1.connect("change-value", self.value_changed1)
         
+        self.scale2 = Gtk.Scale(orientation=Gtk.Orientation.HORIZONTAL,          \
+                                adjustment=Gtk.Adjustment(value=Res.SCALE_INIT,  \
+                                                          lower=Res.SCALE_LOWER, \
+                                                          upper=Res.SCALE_UPPER, \
+                                                          step_increment=Res.SCALE_INC))
+        self.scale2.set_digits(0)
+        self.scale2.connect("change-value", self.value_changed2)
+        
         self.box.pack_start(self.scale0, True, True, 0)
         self.box.pack_start(self.scale1, True, True, 0)
+        self.box.pack_start(self.scale2, True, True, 0)
         
         self.set_default_size(512, 64)
 
