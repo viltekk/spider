@@ -39,6 +39,15 @@ class DevGUIWindow(Gtk.Window):
 
     def value_changed2(self, widget, scoll, value):
         self.serwr(2, value)
+
+    def clicked(self, widget):
+        self.serwr(0, 90)
+        self.serwr(1, 90)
+        self.serwr(2, 90)
+
+    def quit(self, widget):
+        self.clicked(0)
+        Gtk.main_quit(widget)
         
     def __init__(self, title):
         Gtk.Window.__init__(self, title=title)
@@ -73,14 +82,18 @@ class DevGUIWindow(Gtk.Window):
                                                           step_increment=Res.SCALE_INC))
         self.scale2.set_digits(0)
         self.scale2.connect("change-value", self.value_changed2)
+
+        self.btn = Gtk.Button.new_with_label("dance")
+        self.btn.connect("clicked", self.clicked)
         
         self.box.pack_start(self.scale0, True, True, 0)
         self.box.pack_start(self.scale1, True, True, 0)
         self.box.pack_start(self.scale2, True, True, 0)
+        self.box.pack_start(self.btn   , True, True, 0)
         
         self.set_default_size(512, 64)
 
 window = DevGUIWindow(title="Spider GUI")
 window.show_all()
-window.connect("destroy", Gtk.main_quit)
+window.connect("destroy", window.quit)
 Gtk.main()
